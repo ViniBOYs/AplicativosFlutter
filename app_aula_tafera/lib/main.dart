@@ -18,10 +18,10 @@ class MyApp extends StatelessWidget {
         ),
       body: Column(
         children: [
-          Task("Aprender Flutter"),
-          Task("Jogar Video Jogos"),
-          Task("Estudar"),
-          Task("Jogar aquele Fut")
+          Task("Aprender Flutter","https://i.pinimg.com/564x/e3/81/f9/e381f94e800c75721a67f1300db80de3.jpg"),
+          Task("Jogar Video Jogos","https://i.pinimg.com/originals/d5/c8/eb/d5c8ebdfa1eb3ec56d3c284577f3a1c6.jpg"),
+          Task("Estudar","https://www.ahnegao.com.br/wp-content/uploads/2022/11/imgaleat-6ck-1.jpg"),
+          Task("Jogar aquele Fut","https://www.ahnegao.com.br/wp-content/uploads/2018/06/img-1.jpg")
         ],
       )
       )     
@@ -31,7 +31,8 @@ class MyApp extends StatelessWidget {
 
 class Task extends StatelessWidget {
   final String tarefa;
-  const Task(this.tarefa,{super.key});
+  final String img;
+  const Task(this.tarefa,this.img,{super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +45,9 @@ class Task extends StatelessWidget {
             child:Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(color: Colors.grey, height: 100, width: 50,),
+                Container(color: Colors.grey, height: 100, width: 80,
+                  child: Image.network(img,
+                  fit:BoxFit.fill),),
                 Text(tarefa,style: TextStyle(fontSize: 22),
                 ),
                 ElevatedButton(onPressed: () {
