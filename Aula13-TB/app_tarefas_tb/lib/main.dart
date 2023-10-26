@@ -1,122 +1,277 @@
-// O pacote material permite criar aplicativos para celular andrioid com os 
-// com os widgets no padrão do sistema operacional Andriod
 import 'package:flutter/material.dart';
-// void main função principal do programa
+
 void main() {
-  // RumApp é a função que vai chamar a classe MyApp que contem a classe
-  // Stateless do nosso aplicativo
   runApp(const MyApp());
 }
-// MyApp é a classe tipo stateless é uma classe que não é dinamica
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   // This widget is the root of your application.
-  @override // Utiliza-se override para sobrescrever os comandos de uma função dentro da classe
-  // Widget build metodo que reconstroi a tela toda veez q o app é iniciado
+  @override
   Widget build(BuildContext context) {
-    // return - retorno da Classe
     return MaterialApp(
-      // Material App faz parte do packge Material
-      //*** Home tela principal do Aplicativo
-      // Scaffold estrutura pre pronta do Widget com App bar, body e Scaffold Bar
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
       home: Scaffold(
-        // App bar - Barra com titulo do aplicativo
         appBar: AppBar(
-          // Tittle - parametro do widget AppBar
-          // Text - Tipo de widget para colocar no parametro
-          // Titulo do Scaffold
-          title: Text('Aplicativo Tarefas'),
+          leading: Container(),
+          title: Text('Tarefas'),
         ),
-        // Body - Corpo do Sacaffold
-        // Column - Tippo de Widget que permite colocar elementos na vertical no aplicativo
-        body: Column(
-          // Children estabelece relação com os widgets que vão na coluna
-          // Children utilizado para colocar mais de um elemento na oluna do app
+        body: ListView(
           children: [
-            // Chama a classe Task e passa como paramerto o texto e o caminho da imagem
-            Task("Aprender Flutter",
-                "https://cdn-images-1.medium.com/v2/resize:fit:1024/0*vowtRZE_wvyVA7CB"),
-            Task(" Jogar video game",
-                "https://a-static.mlcdn.com.br/800x560/console-sony-playstation-5-825gb-marvels-spider-man-2-limited-edition/magazineluiza/237808200/7c0d5369fd416119d04202e4eb5513a0.jpg"),
-            Task("Estudar",
-                "https://img.imageboss.me/revista-cdn/cdn/6161/2264a8d4f17f8ee3f56155468163979b38eefbbf.jpg?1515696991"),
-            Task("Jogar futebol",
-                "https://conteudo.imguol.com.br/c/esporte/15/2022/12/18/messi-com-o-trofeu-da-copa-do-mundo-no-qatar-1671394673199_v2_900x506.jpg"),
-          ], // Fim do chlidren
+            Task(
+                'Aprender Flutter',
+                'https://cdn-images-1.medium.com/v2/resize:fit:1024/0*vowtRZE_wvyVA7CB',
+                2),
+            Task(
+                'Jogar video game',
+                'https://a-static.mlcdn.com.br/800x560/console-sony-playstation-5-825gb-marvels-spider-man-2-limited-edition/magazineluiza/237808200/7c0d5369fd416119d04202e4eb5513a0.jpg',
+                3),
+            Task(
+                'Estudar',
+                'https://img.imageboss.me/revista-cdn/cdn/6161/2264a8d4f17f8ee3f56155468163979b38eefbbf.jpg?1515696991',
+                4),
+            Task(
+                'Ir no mercado',
+                'https://stories.tudogostoso.com.br/dicas-para-economizar-no-mercado/assets/4.jpeg',
+                1),
+            Task(
+                'Jogar bola',
+                'https://conteudo.imguol.com.br/c/esporte/15/2022/12/18/messi-com-o-trofeu-da-copa-do-mundo-no-qatar-1671394673199_v2_900x506.jpg',
+                5),
+            Task(
+                'Correr',
+                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbMk4dxgcNYD6I4E6nhhZucw8AM4aPM0LTd4S7mBeIoDnhU0EhYepaF8gAMC0uurOBv2s&usqp=CAU',
+                4),
+          ],
         ),
+        /* Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Task('Aprender Flutter'),
+            Task('Jogar video game'),
+            Task('Estudar'),
+            Task('Ir no mercado'),
+          ],
+        ),*/
       ),
     );
   }
 }
-// Criamos uma classe chamada Task que herda da Classe Stateless Widgets
-class Task extends StatelessWidget {
-  final String tarefa; // Variavel do tipo String para pegar o nome da atarefa quando chamar a Task
-  final String img; // Variavel do tipo string para pegar o caminho/ endereço da imagem/ Final palavra reservada que impede
-  // que as variaveis sofram alteração de valores de forma acidental
 
-  // Construtor de classe Task
-  const Task(this.tarefa, this.img, {super.key}); // This utiliza-se para acessar variaveis contidas dentro da propria classe
+// Criando novo widget
 
-  @override // Override utilizado para sobrescrever funções
-  // Widget build metodo chamado para reconstruir a tela toda vez que a Task é chamada
+class Task extends StatefulWidget {
+  final String nome;
+  final String foto;
+  final int dificuldade;
+
+  const Task(this.nome, this.foto, this.dificuldade, {Key? key})
+      : super(key: key);
+
+  @override
+  State<Task> createState() => _TaskState();
+}
+
+// Cria uma nova classe com  o estado da tarefa
+class _TaskState extends State<Task> {
+  int nivel = 0;
+  @override
   Widget build(BuildContext context) {
-    // Return - retorno da função widget build
-    return Container(
-      // Criamos um container
-      color: Colors.white, // Color - Cor do container
-      // Child estavelece relação com apenas um elemento dentro do Widget
-      child: Stack( // Stack utilizado para empilhar Containers
-      // Children estavelece relação com mais de um elemento
-        children: [
-          // Cria container Azul
-          Container(color: Colors.blue, height: 140),
-          Container(
-            // Cria container Branco de altura 100
-            color: Colors.white,
-            height: 100,
-            // Child cria relaçao do Container com a linha
-            child: Row( // Row cria uma linha no aplicativo
-            // mainAxisAlignment - Alinhamento principal do aplicativo
-            // spaceBetween - Espaço entre os elementos
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,  
+    // Padding Espaçamento entre os containers
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        color: Colors.white,
+        child: Stack(
+          children: [
+            Container(color: Colors.blue, height: 140),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Children estavelece relação com mais de um elemento
                 Container(
-                  // Criamos um container Cinza de 100 de altura e 80 de largura
-                  color: Colors.grey,
+                  color: Colors.white,
                   height: 100,
-                  width: 80,
-                  child: Image.network(
-                    // Child estabelece relação do container com a imagem (Child faz a relação de um objeto apeas)
-                    img,
-                    fit: BoxFit.fill, // fit - Parametro que permite o ajuste da imgem no container
-                    // Boxfit.fill parametro que permite o ajuste da imagem no container todo
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        color: Colors.grey,
+                        width: 80,
+                        height: 100,
+                        child: Image.network(widget.foto, fit: BoxFit.cover),
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            width: 200,
+                            child: Text(widget.nome,
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    overflow: TextOverflow.ellipsis)),
+                          ),
+                          Row(
+                            children: [
+                              Icon(Icons.star,
+                                  size: 15,
+                                  color: (widget.dificuldade >= 1)
+                                      ? Colors.blue
+                                      : Colors.blue[100]),
+                              Icon(Icons.star,
+                                  size: 15,
+                                  color: (widget.dificuldade >= 2)
+                                      ? Colors.blue
+                                      : Colors.blue[100]),
+                              Icon(Icons.star,
+                                  size: 15,
+                                  color: (widget.dificuldade >= 3)
+                                      ? Colors.blue
+                                      : Colors.blue[100]),
+                              Icon(
+                                Icons.star,
+                                size: 15,
+                                color: (widget.dificuldade >= 4)
+                                    ? Colors.blue
+                                    : Colors.blue[100],
+                              ),
+                              Icon(
+                                Icons.star,
+                                size: 15,
+                                color: (widget.dificuldade >= 5)
+                                    ? Colors.blue
+                                    : Colors.blue[100],
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      Container(
+                        height: 52,
+                        width: 52,
+                        child: ElevatedButton(
+                            onPressed: () {
+                              // Função responsável por verificar o status no nível e atualizar a tela
+                              setState(() {
+                                nivel++;
+                              });
+
+                              print("Nivel $nivel");
+                            },
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Icon(Icons.arrow_drop_up),
+                                Text(
+                                  'Up',
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                              ],
+                            )),
+                      ),
+                    ],
                   ),
                 ),
-                // Text - Widget Texto 
-                // Tarefa - variavel que ira receber o nome da tarefa Quando a classe for chamada
-                Text(
-                  tarefa,
-                  // Style parametro que permite cutomizar o texto com o parametro TextStyle
-                  // Que permite ajustar o tamanho da fonte do texto
-                  style: TextStyle(fontSize: 22),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    // EdgeInsets
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        child: LinearProgressIndicator(
+                            color: Colors.white,
+                            value: (widget.dificuldade > 0)
+                                ? (nivel / widget.dificuldade) / 10
+                                : 1),
+                        width: 200,
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(12),
+                      child: Text(
+                        'Nivel: $nivel',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                ElevatedButton(
-                  // ElevatedButton permite criar um botão no app
-                  // onpressed - parametro para colocar uma função que é executada quando o botão é precionado
-                    onPressed: () {
-                      print("Botão pressionado");
-                    },
-                    // child estabelece a relação entre o botão e o icone
-                    // Icon permite colocar um icone no botão
-                    // Parametro Icon recebe Icons.arrow_drop_up cria o icone da seta no botão
-                    child: Icon(Icons.arrow_drop_up)),
               ],
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 }
+
+// Criando widgets statefull
+
+/*
+class Task extends StatelessWidget {
+  final String nome;
+  const Task(this.nome, {Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    int nivel = 5;
+    // Padding Espaçamento entre os containers
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        color: Colors.white,
+        child: Stack(
+          children: [
+            Container(color: Colors.blue, height: 140),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  color: Colors.white,
+                  height: 100,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(color: Colors.grey, width: 80, height: 100),
+                      Container(
+                        width: 200,
+                        child: Text(nome,
+                            style: TextStyle(
+                                fontSize: 20, overflow: TextOverflow.ellipsis)),
+                      ),
+                      ElevatedButton(
+                          onPressed: () {
+                            nivel++;
+                            print("Nivel $nivel");
+                          },
+                          child: Icon(Icons.arrow_drop_up)),
+                    ],
+                  ),
+                ),
+                Text(
+                  'Nivel: $nivel',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+*/
